@@ -8,9 +8,6 @@ import Login from './components/Login';
 import './App.css';
 
 function App() {
-	const apiBaseUrl = 'http://192.168.100.120:5000';
-    const localhostUrl = 'http://localhost:5000';
-
 	// Tila rekisteröintidialogille
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 	// Paikkakunnan ja säädatan tila
@@ -46,6 +43,7 @@ function App() {
 	// Tapahtumankäsittelijä onnistuneeseen kirjautumiseen
 	const handleLoginSuccess = (user) => {
 		sessionStorage.setItem('token', user.token); // Tallenna token SessionStorageen
+		console.log('user token ', user.token);
 		sessionStorage.setItem('location', user.location); // Tallenna kotipaikkakunta SessionStorageen
 		setUser(user); // Tallenna käyttäjän tiedot Reactin tilaan
 		fetchWeatherData(user.location); // Kutsu säädatan hakemista käyttäjän kotipaikkakunnalle
@@ -143,7 +141,7 @@ function App() {
 			// Tallenna hakuhistoria, jos käyttäjä on kirjautunut
 			const token = sessionStorage.getItem('token'); // Hae token sessionStorage:sta
 			if (user && token) {
-				await fetch(`${apiBaseUrl}/search`, {
+				await fetch('http://localhost:5000/search', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
